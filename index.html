@@ -24,80 +24,81 @@
     </script>
 
     <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --accent-color: #6366f1; /* Indigo-500 */
+        }
+
         body {
-            /* Premium "Professional" qalin fon - To'q kosmik ranglar uyg'unligi (Mesh Gradient) */
-            background-color: #0f172a;
+            background-color: #0c0e14; 
             background-image: 
-                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
-                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+                radial-gradient(circle at 50% 0, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
             background-attachment: fixed;
             color: #f8fafc;
+            overflow-x: hidden;
         }
 
-        /* Glassmorphism (Shisha) kard effekti - Premium qatlam */
+        /* Glassmorphism - Premium & Distinct */
         .glass-btn {
-            background: rgba(255, 255, 255, 0.03); /* Juda yengil shisha effekti */
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08); /* Nozik chegara */
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Tugma ustiga borganda ko'tarilish va yonish */
         .glass-btn:hover {
             background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-4px) scale(1.02);
-            z-index: 10;
+            transform: translateY(-4px) scale(1.01);
+            border-color: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
         }
 
-        /* "Mayin oq light animatsiyalar" - Shimmer (Nur) effekti tugma ustidan muntazam o'tib turadi */
-        .glass-btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.15), transparent);
-            transform: skewX(-25deg);
-            /* Animatsiya uzluksiz, har bir tugma o'z ritmida (JS'da berilgan tsikl orqali) */
-            animation: light-shimmer 4s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        /* Profile Image Minimalist Glowing Ring - New */
+        .profile-container {
+            position: relative;
+            padding: 2px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        @keyframes light-shimmer {
-            0% { left: -150%; }
-            50% { left: 200%; } /* Nur o'tib ketadi */
-            100% { left: 200%; } /* Takrorlanish uchun tabiyi pauza */
-        }
-
-        /* Profil rasmi uchun maxsus jilolanish */
         .profile-img {
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            padding: 5px;   
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
-            transition: all 0.5s ease;
+            border: 4px solid #0c0e14;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+            height: 100%;
         }
 
-        .profile-img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
+        .profile-img:hover { transform: scale(1.1); }
+
+        /* Enhanced Entrance Animation - Sequential Scale-in */
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(20px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Footer'dagi ijtimoiy ikonkalarning silliq animatsiyasi */
+        .reveal {
+            opacity: 0;
+            animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
         .social-icon {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            color: #94a3b8; /* slate-400 */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: #64748b;
         }
         
         .social-icon:hover {
-            transform: translateY(-5px) scale(1.15);
+            transform: scale(1.2) translateY(-4px);
             color: #ffffff;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+            filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.6));
         }
     </style>
 </head>
@@ -146,20 +147,18 @@
     </script>
 
     <!-- Header qismi (Profil) -->
-    <header class="flex flex-col items-center mb-12 z-10 w-full max-w-sm mt-4 text-center">
-        <!-- Chiroyli va Premium Profil tasviri (Placeholder yangilandi) -->
-        <div class="relative mb-5 group cursor-pointer">
-            <img src="./profile.jpg" alt="Otajon Rajabov" class="w-28 h-28 rounded-full object-cover profile-img z-10 relative">
-            <!-- Profil orqasidagi glow effekti -->
-            <div class="absolute inset-0 bg-white opacity-0 rounded-full blur-xl group-hover:opacity-20 transition-opacity duration-500"></div>
+    <header class="flex flex-col items-center mb-12 z-10 w-full max-w-sm sm:max-w-xl mt-4 text-center reveal" style="animation-delay: 0.1s;">
+        <!-- Minimal Profil tasviri bilan aylanuvchi nur -->
+        <div class="relative mb-6 group cursor-pointer profile-container w-28 h-28">
+            <img src="./profile.jpg" alt="Otajon Rajabov" class="w-full h-full rounded-full object-cover profile-img">
         </div>
         
-        <h1 class="text-3xl font-bold text-white mb-2 tracking-tight">Otajon Rajabov</h1>
-        <p class="text-slate-400 font-semibold text-xs tracking-[0.2em] uppercase">Digital Expert</p>
+        <h1 class="text-4xl font-extrabold text-white mb-2 tracking-tight">Otajon Rajabov</h1>
+        <p class="text-indigo-400 font-bold text-sm tracking-[0.4em] uppercase">Digital Expert</p>
     </header>
 
     <!-- Havolalar qismi -->
-    <main id="links-container" class="w-full max-w-sm flex flex-col gap-4 mb-20 z-10">
+    <main id="links-container" class="w-full max-w-sm sm:max-w-xl flex flex-col gap-5 mb-20 z-10">
         <!-- Javascript orqali to'ldiriladi -->
     </main>
 
@@ -186,31 +185,25 @@
             a.target = "_blank";
             a.rel = "noopener noreferrer";
             
-            // "delay-X" uchun: Har bir tugmadagi nur bir-biridan biroz farqli vaqtda o'tadi
-            const animationDelay = (index * 0.4) + "s";
+            // Animation Delay: Header starts at 0.1, so links start at 0.25+
+            const revealDelay = 0.25 + (index * 0.08); 
             
-            a.className = "glass-btn w-full px-4 py-3 sm:py-4 sm:px-5 rounded-2xl flex items-center cursor-pointer group";
+            a.className = "glass-btn w-full px-6 py-4 sm:py-5 rounded-2xl flex items-center cursor-pointer group reveal";
+            a.style.animationDelay = `${revealDelay}s`;
             
-            // Inline CSS orqali kutish vaqtini va hover neon effekti dinamik biriktiramiz
             a.innerHTML = `
                 <style>
-                    .glass-btn:nth-child(${index + 1})::after {
-                        animation-delay: ${animationDelay};
-                    }
-                    /* Ustiga borganda platformasiga qarab rangli glow berishi */
+                    /* Neon glow on hover logic */
                     .glass-btn:nth-child(${index + 1}):hover {
-                        box-shadow: 0 10px 25px -5px ${link.hoverGlow}, 0 0 15px rgba(255, 255, 255, 0.05);
-                        border-color: rgba(255, 255, 255, 0.3);
+                        box-shadow: 0 15px 35px -5px ${link.hoverGlow.replace('0.2', '0.25')}, 0 0 15px rgba(255, 255, 255, 0.03);
+                        border-color: rgba(255, 255, 255, 0.4);
                     }
                 </style>
-                <!-- Ikonka qismi alohida chiroyli to'rtburchak blok ichida -->
-                <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mr-4 group-hover:bg-white/10 transition-colors duration-300 shadow-inner border border-white/5">
-                    <i class="${link.icon} text-2xl ${link.iconColor} group-hover:scale-110 transition-transform duration-300"></i>
+                <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mr-5 group-hover:bg-white/10 transition-all duration-500 shadow-inner border border-white/10">
+                    <i class="${link.icon} text-2xl ${link.iconColor} group-hover:scale-110 transition-transform duration-500"></i>
                 </div>
-                <!-- Matn qismi faqat ismlar bilan -->
-                <span class="flex-1 font-semibold text-lg text-slate-100 tracking-wide">${link.title}</span>
-                <!-- O'ng tarafdagi yo'naltiruvchi kichik strelka (faqat ustiga borganda chiqadi) -->
-                <i class="fas fa-chevron-right text-slate-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 transform text-sm"></i>
+                <span class="flex-1 font-semibold text-lg sm:text-xl text-slate-100 tracking-wide">${link.title}</span>
+                <i class="fas fa-arrow-right text-indigo-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-500 text-sm"></i>
             `;
             
             linksContainer.appendChild(a);
